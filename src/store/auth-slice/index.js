@@ -6,12 +6,13 @@ const initialState = {
   isLoading: true,
   user: null,
 };
+import { API_BASE_URL } from "@/store/store";
 
 export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/register",
+      `${API_BASE_URL}/api/auth/register`,
       formData,
       {
         withCredentials: true,
@@ -25,7 +26,7 @@ export const LoginUser = createAsyncThunk(
   "/auth/login",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/login",
+      `${API_BASE_URL}/api/auth/login`,
       formData,
       {
         withCredentials: true,
@@ -39,7 +40,7 @@ export const LogoutUser = createAsyncThunk(
   "/auth/logout",
   async () => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/logout",
+      `${API_BASE_URL}/api/auth/logout`,
       {},
       {
         withCredentials: true,
@@ -59,11 +60,11 @@ export const checkAuth = createAsyncThunk(
     }
 
     const response = await axios.get(
-      "http://localhost:5000/api/auth/check-auth",
+      `${API_BASE_URL}/api/auth/check-auth`,
       {
         withCredentials: true,
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
         },
       }
@@ -77,16 +78,16 @@ export const googleAuth = createAsyncThunk(
   "/auth/google",
   async (idToken, { rejectWithValue }) => {
     try {
-      console.log('id token ', idToken);
-      
+      console.log("id token ", idToken);
+
       const response = await axios.post(
-        "http://localhost:5000/api/auth/googleLogin",
-         {idToken} ,
+        `${API_BASE_URL}/api/auth/googleLogin`,
+        { idToken },
         {
           withCredentials: true,
           headers: {
-            'Content-Type': 'application/json',
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
       return response.data;
@@ -149,7 +150,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
-        localStorage.removeItem('google_token')
+        localStorage.removeItem("google_token");
       })
       .addCase(googleAuth.pending, (state) => {
         state.isLoading = true;
