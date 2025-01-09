@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_BASE_URL } from "@/store/config"; 
 
 const initialState = {
   orderId: null,
@@ -12,7 +13,7 @@ export const createNewOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/shop/orders/create",
+        `${API_BASE_URL}/shop/orders/create`, // Replaced localhost with API_BASE_URL
         orderData
       );
       return response.data; // Razorpay order details

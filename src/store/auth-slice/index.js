@@ -6,7 +6,7 @@ const initialState = {
   isLoading: true,
   user: null,
 };
-import { API_BASE_URL } from "@/store/store";
+import { API_BASE_URL } from "@/store/config";
 
 export const registerUser = createAsyncThunk(
   "/auth/register",

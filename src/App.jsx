@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import AuthLayout from "./components/ui/auth/layout";
 import Authlogin from "./pages/auth/login";
@@ -18,7 +18,7 @@ import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { checkAuth } from "./store/auth-slice";
+import { checkAuth, LoginUser } from "./store/auth-slice";
 import { Skeleton } from "./components/ui/skeleton";
 import PaypalReturn from "./pages/shopping/PaypalReturn";
 
@@ -39,6 +39,7 @@ function App() {
     <div className=" flex flex-col overflow-hidden bg-white">
       {/* <div>Header component</div> */}
       <Routes>
+        <Route path="/" element={<Navigate to="/auth/login" replace />} />
         {/* Auth routes */}
         <Route
           path="/auth"
@@ -84,8 +85,7 @@ function App() {
         </Route>
 
         <Route path="*" element={<NotFound />} />
-        <Route path="unauth-page" element={<UnauthPage />}></Route>
-        <Route path="/ " element={<AuthLayout />}></Route>
+        <Route path="unauth-page" element={<UnauthPage />} />
       </Routes>
     </div>
   );
