@@ -37,6 +37,8 @@ function ShoppingHome() {
     (state) => state.shopProducts
   );
 
+  console.log(productList);
+
   const navigate = useNavigate();
   const { toast } = useToast();
   const categoriesWithIcons = [

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { API_BASE_URL } from "../config";
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
   user: null,
 };
-import { API_BASE_URL } from "@/store/config";
+
 
 export const registerUser = createAsyncThunk(
   "/auth/register",
@@ -64,7 +64,7 @@ export const checkAuth = createAsyncThunk(
       {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
         },
       }
@@ -78,16 +78,16 @@ export const googleAuth = createAsyncThunk(
   "/auth/google",
   async (idToken, { rejectWithValue }) => {
     try {
-      console.log("id token ", idToken);
-
+      console.log('id token ', idToken);
+      
       const response = await axios.post(
         `${API_BASE_URL}/api/auth/googleLogin`,
-        { idToken },
+         {idToken} ,
         {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",
-          },
+            'Content-Type': 'application/json',
+          }
         }
       );
       return response.data;
@@ -150,7 +150,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
-        localStorage.removeItem("google_token");
+        localStorage.removeItem('google_token')
       })
       .addCase(googleAuth.pending, (state) => {
         state.isLoading = true;
