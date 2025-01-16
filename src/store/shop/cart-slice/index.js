@@ -8,7 +8,7 @@ const initialState = {
 };
 
 // Base API URL for convenience
-const BASE_URL = 'https://server-mern-cloth-shop.onrender.com/api/shop';
+const BASE_URL = 'https://server-mern-cloth-shop.onrender.com/api/shop/cart';
 
 // Thunks for handling async operations
 export const addToCart = createAsyncThunk(
