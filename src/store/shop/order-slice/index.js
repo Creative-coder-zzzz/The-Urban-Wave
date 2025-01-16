@@ -12,7 +12,7 @@ export const createNewOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/api/shop/orders/create`,
+        `https://server-mern-cloth-shop.onrender.com/api/shop/orders/create`,
         orderData
       );
       return response.data; // Razorpay order details
