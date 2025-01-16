@@ -28,7 +28,7 @@ function Address({ setCurrentSelectedAddress }) {
   const { toast } = useToast();
   function handleManageAddress(event) {
     event.preventDefault();
-
+    console.log("address clicked")
     if (addressList.length >= 3 && currentEditedId === null) {
       setFormData(initialAddressFormData);
       toast({
