@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import React from "react";
+import React, { useState } from "react";
 
 function AddressCard({
   addressInfo,
@@ -9,10 +9,24 @@ function AddressCard({
   handleEditAddress,
   setCurrentSelectedAddress,
 }) {
+  const [select, setSelect] = useState(true);
+
+  function handleSelectButton(addressInfo) {
+    setSelect(!select);
+    if (select === false) {
+      setCurrentSelectedAddress(null);
+    } else {
+      setCurrentSelectedAddress(addressInfo);
+    }
+  }
+
   return (
     <Card
-      className=" hover:border-red-300 hover: border-2 "
-      onClick={() => setCurrentSelectedAddress(addressInfo)}
+      className={` ${
+        select
+          ? "hover:border-red-300 hover: border-2"
+          : "border-4 border-black"
+      }`}
     >
       <CardContent className="grid gap-4 p-2">
         <Label className="flex">
@@ -43,6 +57,9 @@ function AddressCard({
           onClick={() => handleDeleteAddress(addressInfo)}
         >
           Delete
+        </Button>
+        <Button onClick={() => handleSelectButton(addressInfo)}>
+          {select ? "select" : "Cancel"}
         </Button>
       </CardFooter>
     </Card>

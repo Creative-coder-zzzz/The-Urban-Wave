@@ -1,7 +1,7 @@
 import React from "react";
 
-function PaypalReturn() {
+function RazorpayReturn() {
   return <div>Paypal return page</div>;
 }
 
-export default PaypalReturn;
+export default RazorpayReturn;

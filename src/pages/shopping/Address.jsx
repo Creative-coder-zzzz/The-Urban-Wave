@@ -19,17 +19,21 @@ const initialAddressFormData = {
   pincode: "",
   notes: "",
 };
-function Address({ setCurrentSelectedAddress }) {
+function Address({ setCurrentSelectedAddress, currentSelectedAddress }) {
   const [formData, setFormData] = useState(initialAddressFormData);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const { addressList } = useSelector((state) => state.shopAddress);
   const { toast } = useToast();
+
   function handleManageAddress(event) {
     event.preventDefault();
+    console.log(addressList);
 
     if (addressList.length >= 3 && currentEditedId === null) {
+      console.log("addess ");
+
       setFormData(initialAddressFormData);
       toast({
         title: "You can only add max 3 addresses",
@@ -111,7 +115,7 @@ function Address({ setCurrentSelectedAddress }) {
   }
   return (
     <Card>
-      <div className="mb-5 grid grid-cols-1 sm:grid-cols-2gap-2 p-3">
+      <div className="mb-5 grid grid-cols-1  gap-2 ">
         {addressList && addressList.length > 0
           ? addressList.map((singleAddressItem, index) => (
               <AddressCard

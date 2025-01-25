@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import ProductDetails from "./product-details";
+import Footer from "./footer";
 
 function ShoppingHome() {
   const slides = [bannerOne, bannerTwo, bannerThree];
@@ -36,8 +37,6 @@ function ShoppingHome() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-
-  console.log(productList);
 
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -222,6 +221,10 @@ function ShoppingHome() {
         productDetails={productDetails}
         handleAddToCart={handleAddtoCart}
       />
+
+      <div className="bg-black p-5 text-sm">
+        <Footer />
+      </div>
     </div>
   );
 }

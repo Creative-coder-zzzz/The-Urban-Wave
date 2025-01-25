@@ -20,7 +20,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth, LoginUser } from "./store/auth-slice";
 import { Skeleton } from "./components/ui/skeleton";
-import PaypalReturn from "./pages/shopping/PaypalReturn";
+
+import RazorpayReturn from "./pages/shopping/RazorpayReturn";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -81,7 +82,7 @@ function App() {
           <Route path="list" element={<ShoppingList />} />
           <Route path="account" element={<ShoppingAccount />} />
           <Route path="checkout" element={<ShoppingCheckout />} />
-          <Route path="paypal-return" element={<PaypalReturn />} />
+          <Route path="razorpay-return" element={<RazorpayReturn />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

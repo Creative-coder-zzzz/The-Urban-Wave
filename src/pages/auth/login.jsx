@@ -1,13 +1,10 @@
 import CommonForm from "@/components/common/form";
 import { loginFormControls, registerFormControls } from "@/config";
 import { useToast } from "@/hooks/use-toast";
-import authSlice, { LoginUser, googleAuth } from "@/store/auth-slice";
-import { Description } from "@radix-ui/react-toast";
+import authSlice, { LoginUser } from "@/store/auth-slice";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
-
 function Authlogin() {
   const initialState = {
     email: "",
@@ -38,45 +35,6 @@ function Authlogin() {
     });
   }
 
-  // handle google login
-
-  function handleGoogleLoginSuccess(response) {
-    const idToken = response.credential;
-
-    dispatch(googleAuth(idToken))
-      .then((action) => {
-        // Access the payload from the action result
-        const data = action.payload;
-        if (data?.user) {
-          toast({
-            title: "Login successful",
-            description: "Logged in successFully",
-          });
-        } else {
-          toast({
-            title: "Login Failed",
-            description: "Please try again",
-            variant: "destructive",
-          });
-        }
-      })
-      .catch((error) => {
-        toast({
-          title: "Google Login Failed!",
-          description: "Unable to log in with Google. Please try again later.",
-          variant: "destructive",
-        });
-      });
-  }
-
-  function handleGoogleLoginFailure() {
-    toast({
-      title: "Google Login Failed!",
-      description: "Unable to log in with Google. Please try again later.",
-      variant: "destructive",
-    });
-  }
-
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
@@ -102,22 +60,6 @@ function Authlogin() {
         setFormData={setFormData}
         onSubmit={onSubmit}
       />
-
-      {/* Divider */}
-      <div className="relative my-4 flex items-center">
-        <div className="h-px w-full bg-gray-300" />
-        <p className="mx-4 text-sm text-gray-500">OR</p>
-        <div className="h-px w-full bg-gray-300" />
-      </div>
-
-      {/* Google Login Button */}
-      <div className="flex justify-center">
-        <GoogleLogin
-          onSuccess={handleGoogleLoginSuccess}
-          onError={handleGoogleLoginFailure}
-          useOneTap // Optional: Adds one-tap login feature
-        />
-      </div>
     </div>
   );
 }

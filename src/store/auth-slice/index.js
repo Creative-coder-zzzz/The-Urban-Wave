@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import axios from "axios";
 import { API_BASE_URL } from "../config";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
@@ -52,20 +53,15 @@ export const LogoutUser = createAsyncThunk(
 
 export const checkAuth = createAsyncThunk(
   "/auth/checkauth",
+
   async () => {
-    const token = localStorage.getItem("google_token");
-
-    if (!token) {
-      throw new Error("No token found");
-    }
-
     const response = await axios.get(
-      `${API_BASE_URL}/api/auth/check-auth`,
+      "http://localhost:5000/api/auth/check-auth",
       {
         withCredentials: true,
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
         },
       }
     );
@@ -74,30 +70,7 @@ export const checkAuth = createAsyncThunk(
   }
 );
 
-export const googleAuth = createAsyncThunk(
-  "/auth/google",
-  async (idToken, { rejectWithValue }) => {
-    try {
-      console.log('id token ', idToken);
-      
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/googleLogin`,
-         {idToken} ,
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Google authentication failed."
-      );
-    }
-  }
-);
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -152,24 +125,24 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         localStorage.removeItem('google_token')
       })
-      .addCase(googleAuth.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(googleAuth.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
+      // .addCase(googleAuth.pending, (state) => {
+      //   state.isLoading = true;
+      // })
+      // .addCase(googleAuth.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.user = action.payload.success ? action.payload.user : null;
+      //   state.isAuthenticated = action.payload.success;
 
-        // Save the token to localStorage if login is successful
-        if (action.payload.success && action.payload.token) {
-          localStorage.setItem("google_token", action.payload.token);
-        }
-      })
-      .addCase(googleAuth.rejected, (state, action) => {
-        state.isLoading = false;
-        state.user = null;
-        state.isAuthenticated = false;
-      });
+      //   // Save the token to localStorage if login is successful
+      //   if (action.payload.success && action.payload.token) {
+      //     localStorage.setItem("google_token", action.payload.token);
+      //   }
+      // })
+      // .addCase(googleAuth.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.user = null;
+      //   state.isAuthenticated = false;
+      // });
   },
 });
 

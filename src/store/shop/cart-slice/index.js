@@ -8,14 +8,14 @@ const initialState = {
 };
 
 // Base API URL for convenience
-const BASE_URL = API_BASE_URL;
+
 
 // Thunks for handling async operations
 export const addToCart = createAsyncThunk(
   'shoppingCart/addToCart', 
   async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/add`, {
+      const response = await axios.post(`${API_BASE_URL}/api/shop/cart/add`, {
         userId, productId, quantity
       });
       return response.data;
@@ -29,7 +29,7 @@ export const fetchCartItems = createAsyncThunk(
   'shoppingCart/fetchCartItems', 
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${BASE_URL}/get/${userId}`);
+      const response = await axios.get(`${API_BASE_URL}/api/shop/cart/get/${userId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -41,7 +41,7 @@ export const deleteCartItem = createAsyncThunk(
   'shoppingCart/deleteCartItem', 
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/${userId}/${productId}`);
+      const response = await axios.delete(`${API_BASE_URL}/api/shop/cart/${userId}/${productId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -53,7 +53,7 @@ export const updateCartQuantity = createAsyncThunk(
   'shoppingCart/updateCartQuantity', 
   async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${BASE_URL}/update-cart`, {
+      const response = await axios.put(`${API_BASE_URL}/api/shop/cart/update-cart`, {
         userId, productId, quantity
       });
       return response.data;

@@ -3,13 +3,23 @@ import { DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const initialFormData = {
   status: "",
 };
 
-function ShoppingOrderDetails() {
+function ShoppingOrderDetails({ order }) {
+  if (!order) return null;
+
   const [formData, setFormData] = useState(initialFormData);
+  const { orders } = useSelector((state) => state.shopOrder);
+
+  const orderDate = new Date(order.orderDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
 
   function handleUpdateStatus(event) {
     event.preventDefault();
@@ -20,34 +30,53 @@ function ShoppingOrderDetails() {
         <Label className="font-bold text-xl">Order Details</Label>
         <div className=" mt-2 flex items-center justify-between">
           <p className="font-medium"> Order Id</p>
-          <Label>1234</Label>
+          <Label>{order?._id}</Label>
         </div>
 
         <div className=" mt-2 flex items-center justify-between">
           <p className="font-medium"> Order Date</p>
-          <Label>02/01/2024</Label>
+          <Label>{orderDate}</Label>
+        </div>
+
+        <div className=" mt-2 flex items-center justify-between">
+          <p className="font-medium"> Payment method</p>
+          <Label>{order?.paymentMethod}</Label>
+        </div>
+
+        <div className=" mt-2 flex items-center justify-between">
+          <p className="font-medium"> Payment Id</p>
+          <Label>{order?.paymentId}</Label>
+        </div>
+
+        <div className=" mt-2 flex items-center justify-between">
+          <p className="font-medium"> Payment Status</p>
+          <Label>{order?.paymentStatus}</Label>
         </div>
 
         <div className=" mt-2 flex items-center justify-between">
           <p className="font-medium"> Order Status</p>
-          <Label>In process</Label>
+          <Label>{order?.orderStatus}</Label>
         </div>
 
         <div className=" mt-2 flex items-center justify-between">
           <p className="font-medium"> Order Price</p>
-          <Label>$4000</Label>
+          <Label>₹{order?.totalAmount}</Label>
         </div>
 
         <Separator />
         <div className="grid gap-4">
           <div className="grid gap-2">
             <div className="font-medium">Details-:</div>
-            <ul className="grid gap-3">
-              <li className="flex items-center justify-between">
-                <span>Product one</span>
-                <span>$100</span>
-              </li>
-            </ul>
+            {order.cartItems.map((items, index) => {
+              return (
+                <ul className="grid gap-3">
+                  <li className="flex items-center justify-between">
+                    <span>{items.title}</span>
+                    <span>₹{items.price}</span>
+                  </li>
+                </ul>
+              );
+            })}
           </div>
         </div>
 
@@ -56,11 +85,11 @@ function ShoppingOrderDetails() {
             <div className="font-medium">Shipping Information</div>
 
             <div className="grid gap-0.5" text-muted-foreground>
-              <span>Sandesh Adhikari</span>
-              <span> Address</span>
-              <span> City</span>
-              <span> Pincode</span>
-              <span> Phone</span>
+              <span>{order?.addressInfo?.address}</span>
+              <span> {order?.addressInfo?.city}</span>
+              <span> {order?.addressInfo?.notes}</span>
+              <span> {order?.addressInfo?.phone}</span>
+              <span> {order?.addressInfo?.pincode}</span>
             </div>
           </div>
         </div>

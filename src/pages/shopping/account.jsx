@@ -5,6 +5,7 @@ import { Tabs } from "@radix-ui/react-tabs";
 import Orders from "./Orders";
 import Address from "./Address";
 import ShoppingOrders from "./Orders";
+import RecentOrders from "./RecentOrders";
 function ShoppingAccount() {
   return (
     <div className="flex flex-col">
@@ -19,7 +20,11 @@ function ShoppingAccount() {
         <div className="flex flex-col rounded-lg border ng-background p-6 shadow-sm">
           <Tabs className="border-none">
             <TabsList>
-              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="recent-orders">Recent Orders</TabsTrigger>
+              <TabsTrigger value="orders" setOpen={true}>
+                Order History
+              </TabsTrigger>
+
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>
 
@@ -28,6 +33,10 @@ function ShoppingAccount() {
             </TabsContent>
             <TabsContent value="address">
               <Address />
+            </TabsContent>
+
+            <TabsContent value="recent-orders">
+              <RecentOrders />
             </TabsContent>
           </Tabs>
         </div>

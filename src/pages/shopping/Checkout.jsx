@@ -4,9 +4,14 @@ import Address from "./Address";
 import UserCartContent from "./CartContent";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { createNewOrder } from "@/store/shop/order-slice";
+import {
+  createNewOrder,
+  verifyPaymentandSaveOrder,
+} from "@/store/shop/order-slice";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCheckout() {
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
@@ -28,7 +33,10 @@ function ShoppingCheckout() {
         productId: item?.productId,
         title: item?.title,
         image: item?.image,
-        price: item?.salePrice > 0 ? item?.salePrice : item?.price,
+        price:
+          item?.salePrice > 0
+            ? item?.salePrice * item?.quantity
+            : item?.price * item?.quantity,
         quantity: item?.quantity,
       })),
       addressInfo: {
@@ -44,7 +52,7 @@ function ShoppingCheckout() {
 
     // Dispatch Redux action to create order
     dispatch(createNewOrder(orderData)).then((data) => {
-      if (data?.payload?.success) {
+      if (data?.payload?.success && currentSelectedAddress !== null) {
         const { orderId, amount, currency } = data.payload;
 
         // Initialize Razorpay Checkout
@@ -52,14 +60,22 @@ function ShoppingCheckout() {
           key: "rzp_test_bvgyaHLOABdgT3",
           amount: amount,
           currency: currency,
-          name: "Your Store Name",
+          name: "The Urban Wave",
           description: "Order Payment",
           order_id: orderId,
           handler: function (response) {
-            alert("Payment Successful: " + response.razorpay_payment_id);
-            console.log("Payment Response: ", response);
-            // Handle payment success (update backend)
-            window.location.reload();
+            const payload = {
+              razorpayResponse: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              },
+              orderData,
+            };
+
+            dispatch(verifyPaymentandSaveOrder(payload));
+
+            window.location.href = "/shop/account";
           },
           prefill: {
             name: user?.name,
@@ -77,7 +93,7 @@ function ShoppingCheckout() {
         const rzp = new window.Razorpay(options);
         rzp.open();
       } else {
-        alert("Order creation failed!");
+        alert("Please select an Address to continue!");
       }
     });
   }
@@ -91,7 +107,10 @@ function ShoppingCheckout() {
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5 p-5">
-        <Address setCurrentSelectedAddress={setCurrentSelectedAddress} />
+        <Address
+          setCurrentSelectedAddress={setCurrentSelectedAddress}
+          currentSelectedAddress={currentSelectedAddress}
+        />
         <div className="flex flex-col gap-4">
           {cartItems?.data?.items.map((cartItem, index) => (
             <UserCartContent cartItem={cartItem} key={index} />

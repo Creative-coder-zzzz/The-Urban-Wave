@@ -8,7 +8,7 @@ const initialState ={
   productDetails: null
 }
 
-console.log(initialState.productList);
+
 
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
@@ -22,7 +22,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
     console.log("Formatted Query String:", query);
 
     const result = await axios.get(
-      `https://server-mern-cloth-shop.onrender.com/api/shop/products/get?${query}`
+      `${API_BASE_URL}/api/shop/products/get?${query}`
     );
     return result?.data;
   }
