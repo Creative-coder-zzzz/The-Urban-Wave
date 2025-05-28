@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'localhost'
+export const API_BASE_URL = 'https://server-mern-cloth-shop-1.onrender.com'
