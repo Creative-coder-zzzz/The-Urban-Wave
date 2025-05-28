@@ -86,7 +86,6 @@ function App() {
           <Route path="list" element={<ShoppingList />} />
           <Route path="account" element={<ShoppingAccount />} />
           <Route path="checkout" element={<ShoppingCheckout />} />
-          <Route path="paypal-return" element={<PaypalReturn />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
