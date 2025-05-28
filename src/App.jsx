@@ -22,6 +22,7 @@ import { checkAuth, LoginUser } from "./store/auth-slice";
 import { Skeleton } from "./components/ui/skeleton";
 import PaypalReturn from "./pages/shopping/PaypalReturn";
 import { ToastContainer } from "react-toastify";
+import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -34,7 +35,7 @@ function App() {
   }, [dispatch]);
 
   if (isLoading) {
-    return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
+    return <LoadingScreen/>;
   }
   return (
     <div className=" flex flex-col overflow-hidden bg-white">
