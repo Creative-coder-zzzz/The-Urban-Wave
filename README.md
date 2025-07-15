@@ -74,6 +74,13 @@ npm start
 ⏳ Project Timeline
 This project took approximately 3 months to complete — from designing the frontend UI to developing a secure backend and deploying both services.
 
+
+<img width="1902" height="875" alt="image" src="https://github.com/user-attachments/assets/76d884aa-8997-42a0-859e-541e0ca1919c" />
+<img width="1902" height="866" alt="image" src="https://github.com/user-attachments/assets/b35efdcc-2f57-4958-a3c6-4493344e22d8" />
+<img width="1899" height="867" alt="image" src="https://github.com/user-attachments/assets/ede1a04d-2abf-462b-bd17-e3ae33350ddd" />
+
+
+
 📬 Contact
 Feel free to reach out for queries, collaboration, or feedback:
 
